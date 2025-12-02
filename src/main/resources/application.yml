@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: WebFluxLearning
+  r2dbc:
+    url: r2dbc:mysql://localhost:3306/knowledge_base?useSSL=false&serverTimezone=UTC
+    username: root
+    password: MySQL_2020
+
+  config:
+    jwt:
+      #      public-key-path: classpath:static/public_key.pem
+      #      private-key-path: classpath:static/private_key.pem
+      #      secret-key: qO1)rU6!jN9(eJ5@sD6-iB7%hQ0^uX9?
+      expiration-minutes: 60
+      expiration-key-days: 1
+    password-key:
+      salt-length: 16
+      hash-iterations: 1000
+      hash-key-length: 256
+      key-algorithm: PBKDF2WithHmacSHA256
+      secret-code: C2A50163-E64D-9A92-A7E7-862E7ADD05BE
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  ai:
+    dashscope:
+      api-key: ${AI_DASHSCOPE_API_KEY}
+      workspace-id: ${AI_WORKSPACE_ID}
+      chat:
+        options:
+          model: qwen-max
+
+server:
+  port: 8080
