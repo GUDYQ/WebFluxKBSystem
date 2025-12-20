@@ -8,8 +8,8 @@ import org.example.webfluxlearning.dao.repository.UserRepository;
 import org.example.webfluxlearning.entity.PO.User;
 import org.example.webfluxlearning.entity.VO.UserToken;
 import org.example.webfluxlearning.service.UserService;
+import org.example.webfluxlearning.utils.CacheUtil;
 import org.example.webfluxlearning.utils.PBKDF2Util;
-import org.example.webfluxlearning.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
     private UserTokenManager userTokenManager;
 
     @Autowired
-    private RedisUtil redisUtil;
+    private CacheUtil cacheUtil;
 
     @Autowired
     private PBKDF2Util pbkdf2Util;
@@ -57,14 +57,14 @@ public class UserServiceImpl implements UserService {
                         }
                 ).subscribeOn(Schedulers.boundedElastic())
                         .flatMap(userToken ->
-                        redisUtil.setExpire(user.getUuid(), userToken.getAccessToken(), (long) 24 * 60 * 60)
+                                cacheUtil.setExpire(user.getUuid(), userToken.getAccessToken(), (long) 24 * 60 * 60)
                                 .onErrorMap(e -> new PasswordErrorException("Authentication failed"))
                                 .thenReturn(userToken)
                 ));
     }
 
     public Mono<String> generateAccessToken(String userId, String refreshToken) throws UserLoginException {
-        return redisUtil.get(userId).cast(String.class)
+        return cacheUtil.get(userId).cast(String.class)
                 .filter(s -> s != null && s.equals(refreshToken))
                 .switchIfEmpty(Mono.error(new UserLoginException("Invalid refresh token")))
                 .then(userRepository.findById(userId))

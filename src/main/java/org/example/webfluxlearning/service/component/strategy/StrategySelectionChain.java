@@ -22,10 +22,10 @@ public class StrategySelectionChain {
         ).toList();
     }
 
-    public Mono<String> askModel(AIModelApiRequest request) throws AiRequestException {
+    public Flux<String> askModel(AIModelApiRequest request) throws AiRequestException {
         return Flux.fromIterable(chain).filter(strategy -> strategy.support(request.getModelName()))
                 .next().switchIfEmpty(Mono.error(new AiRequestException("Non Model Support")))
                 .flatMap(strategy -> strategy.execute(request))
-                .flatMap(client -> Mono.just(client.chat(request.getContent())));
+                .flatMapMany(client -> client.streamChat(request.getContent()));
     }
 }

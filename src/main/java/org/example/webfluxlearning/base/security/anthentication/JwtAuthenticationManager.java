@@ -25,7 +25,7 @@ public class JwtAuthenticationManager implements ReactiveAuthenticationManager {
     @Autowired
     private UserTokenManager tokenManagerService;
 
-    private final List<String> ignorePaths = List.of("/api/user/login");
+    private final List<String> ignorePaths = List.of("/api/user/login", "/api/test/**");
 
     @Override
     public Mono<Authentication> authenticate(Authentication authentication) {

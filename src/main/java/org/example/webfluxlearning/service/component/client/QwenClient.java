@@ -21,14 +21,8 @@ public class QwenClient implements LLMClient{
     }
 
     @Override
-    public String chat(String message) {
-        return this.chatClient.prompt(message)
-                .call()
-                .content();
-    }
-
-    @Override
     public Flux<String> streamChat(String message) {
+
         return this.chatClient.prompt(message)
                 .stream()
                 .content();

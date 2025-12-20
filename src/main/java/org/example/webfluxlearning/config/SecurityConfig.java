@@ -41,7 +41,7 @@ public class SecurityConfig {
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         return http.csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(authorize -> {
-                    authorize.pathMatchers("/api/user/**").permitAll()
+                    authorize.pathMatchers("/api/user/**", "/api/test/**").permitAll()
                             .anyExchange().authenticated();
                 })
                 .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())

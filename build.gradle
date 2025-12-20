@@ -22,8 +22,9 @@ configurations {
 
 ext {
     set('springCloudVersion', "2024.0.2")
-    set('springBootVersion', "3.5.5")
-    set('springAlibabaAIVersion', "1.0.0.3")
+    set('springBootVersion', "3.5.7")
+    set('springAlibabaAIVersion', "1.1.0.0-RC1")
+    set('dashscopeAIVersion', "1.1.0.0-RC2")
 //    set('springAi', "1.0.2")
 //    set('springCloudAlibabaVersion', "2023.0.1.2")
 }
@@ -59,11 +60,14 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
-    implementation 'com.alibaba.cloud.ai:spring-ai-alibaba-starter-dashscope'
-    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    // https://mvnrepository.com/artifact/com.github.ben-manes.caffeine/caffeine
+    implementation 'com.github.ben-manes.caffeine:caffeine:3.2.3'
+    implementation "com.alibaba.cloud.ai:spring-ai-alibaba-starter-dashscope:${dashscopeAIVersion}"
+//    implementation 'org.springframework.boot:spring-boot-starter-cache'
     implementation 'com.alibaba:fastjson:2.0.58'
     implementation 'com.nimbusds:nimbus-jose-jwt:10.5'
-    implementation 'org.elasticsearch:elasticsearch:9.1.5'
+    implementation 'org.elasticsearch:elasticsearch:9.2.2'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.mysql:mysql-connector-j'
