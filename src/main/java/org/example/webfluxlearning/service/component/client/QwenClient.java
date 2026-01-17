@@ -7,23 +7,23 @@ import reactor.core.publisher.Flux;
 
 @Component
 @Qualifier("qwen")
-public class QwenClient implements LLMClient{
+public class QwenClient implements LLMClient {
 
     private final ChatClient chatClient;
 
-    public QwenClient(ChatClient.Builder builder) {
-        this.chatClient = builder.build();
+    public QwenClient(ChatClient.Builder chatClientBuilder) {
+        this.chatClient = chatClientBuilder.build();
     }
 
     @Override
     public String modelName() {
-        return "qwen";
+        return "deepseek";
     }
 
     @Override
     public Flux<String> streamChat(String message) {
-
-        return this.chatClient.prompt(message)
+        return chatClient.prompt()
+                .user(message)
                 .stream()
                 .content();
     }

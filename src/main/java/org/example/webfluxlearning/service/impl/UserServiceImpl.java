@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
                         }
                 ).subscribeOn(Schedulers.boundedElastic())
                         .flatMap(userToken ->
-                                cacheUtil.setExpire(user.getUuid(), userToken.getAccessToken(), (long) 24 * 60 * 60)
+                                cacheUtil.setExpire(user.getUuid().toString(), userToken.getAccessToken(), (long) 24 * 60 * 60)
                                 .onErrorMap(e -> new PasswordErrorException("Authentication failed"))
                                 .thenReturn(userToken)
                 ));
@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
                     user.setEmail(email);
                     user.setUsername(username);
                     user.setCreatedTime(LocalDateTime.now());
-                    user.setUuid(UUID.randomUUID().toString());
+                    user.setUuid(UUID.randomUUID());
                     return userRepository.save(user);
                 });
     }

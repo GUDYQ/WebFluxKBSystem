@@ -28,13 +28,13 @@ public class TokenUtil {
         return UUID.randomUUID().toString();
     }
 
-    public String generateAccessToken(String userId, String username, String email, RSAPrivateKey privateKey) throws TokenErrorException{
+    public String generateAccessToken(UUID userId, String username, String email, RSAPrivateKey privateKey) throws TokenErrorException{
         try {
             // 创建JWT声明集
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.MINUTE, jwtConfig.getExpirationMinutes()); // Token valid for 30 minutes
             JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-                    .subject(userId) // 通常用userId作为subject
+                    .subject(userId.toString()) // 通常用userId作为subject
                     .issuer("TestLearning") // 发行者
                     .expirationTime(calendar.getTime())
                     .notBeforeTime(new Date())

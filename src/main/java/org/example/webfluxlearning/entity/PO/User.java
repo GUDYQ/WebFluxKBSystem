@@ -8,6 +8,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 @Table("users")
 public class User {
     @Id
-    private String uuid;
+    private UUID uuid;
     private String username;
     @Column(value = "password_hash")
     private String passwordHashHex;

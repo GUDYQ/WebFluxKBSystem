@@ -5,9 +5,12 @@ spring:
     client:
       factory: jdk
   r2dbc:
-    url: r2dbc:mysql://localhost:3306/knowledge_base?useSSL=false&serverTimezone=UTC
-    username: root
-    password: MySQL_2020
+    url: r2dbc:postgresql://localhost:5432/knowledge_base
+    username: postgres
+    password: postgresql
+  #    url: r2dbc:mysql://localhost:3306/knowledge_base?useSSL=false&serverTimezone=UTC
+#    username: root
+#    password: MySQL_2020
 
   config:
     jwt:
@@ -34,7 +37,7 @@ spring:
       workspace-id: ${AI_WORKSPACE_ID}
       chat:
         options:
-          model: qwen-max
+          model: deepseek-v3.2
 
 server:
   port: 8080

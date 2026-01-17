@@ -36,6 +36,6 @@ public class UserAuthentication implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getUuid();
+        return user.getUuid().toString();
     }
 }

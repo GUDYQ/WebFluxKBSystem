@@ -35,6 +35,9 @@ public class CacheUtil {
     public Mono<Boolean> setExpire(String key, Object value, Long expire) {
         return operations.opsForValue().set(key, value, Duration.of(expire, ChronoUnit.SECONDS));
     }
+    public Mono<Long> delete(String key) {
+        return operations.delete(key);
+    }
 
     public <T> Mono<T> get(CacheNames.CacheSpec spec, String key, Class<T> type, Mono<T> loader) {
         return getInternal(spec.name, key, type, loader, spec.localTtl, spec.remoteTtl, spec.maxSize);
@@ -44,7 +47,7 @@ public class CacheUtil {
         return getInternal(cacheName, key, type, loader, DEFAULT_LOCAL_TTL, DEFAULT_REMOTE_TTL, DEFAULT_MAX_SIZE);
     }
 
-    public <T>Mono<T> getInternal(String cacheName, String key, Class<T> type, Mono<T> loader,
+    public <T> Mono<T> getInternal(String cacheName, String key, Class<T> type, Mono<T> loader,
                                    Duration localTtl, Duration remoteTtl, long maxSize) {
         AsyncCache<String, Object> localCache = caches.computeIfAbsent(cacheName, n ->
                 Caffeine.newBuilder()
@@ -79,5 +82,13 @@ public class CacheUtil {
         );
         localCache.put(key, CompletableFuture.completedFuture(value));
         return set(key, value);
+    }
+
+    public Mono<Long> evict(String cacheName, String key) {
+        AsyncCache<String, Object> localCache = caches.get(cacheName);
+        if (localCache != null) {
+            return Mono.just(1L);
+        }
+        return delete(key);
     }
 }

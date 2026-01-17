@@ -25,6 +25,7 @@ ext {
     set('springBootVersion', "3.5.7")
     set('springAlibabaAIVersion', "1.1.0.0-RC1")
     set('dashscopeAIVersion', "1.1.0.0-RC2")
+    set('tikaVersion', "3.2.3")
 //    set('springAi', "1.0.2")
 //    set('springCloudAlibabaVersion', "2023.0.1.2")
 }
@@ -64,14 +65,22 @@ dependencies {
     // https://mvnrepository.com/artifact/com.github.ben-manes.caffeine/caffeine
     implementation 'com.github.ben-manes.caffeine:caffeine:3.2.3'
     implementation "com.alibaba.cloud.ai:spring-ai-alibaba-starter-dashscope:${dashscopeAIVersion}"
+    // https://mvnrepository.com/artifact/org.apache.tika/tika-core
+    implementation "org.apache.tika:tika-core:${tikaVersion}"
+    // https://mvnrepository.com/artifact/org.apache.tika/tika-parsers
+    implementation "org.apache.tika:tika-parsers:${tikaVersion}"
+    implementation "org.apache.tika:tika-parsers-standard-package:${tikaVersion}"
+    implementation "org.postgresql:r2dbc-postgresql:1.1.1.RELEASE"
 //    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'com.google.guava:guava:33.5.0-jre'
     implementation 'com.alibaba:fastjson:2.0.58'
     implementation 'com.nimbusds:nimbus-jose-jwt:10.5'
-    implementation 'org.elasticsearch:elasticsearch:9.2.2'
+    implementation 'org.elasticsearch:elasticsearch:9.2.3'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'com.mysql:mysql-connector-j'
-    runtimeOnly 'io.asyncer:r2dbc-mysql'
+//    runtimeOnly 'com.mysql:mysql-connector-j'
+//    runtimeOnly 'io.asyncer:r2dbc-mysql'
+    runtimeOnly 'org.postgresql:postgresql:42.7.8'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'

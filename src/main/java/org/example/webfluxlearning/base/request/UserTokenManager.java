@@ -6,6 +6,8 @@ import org.example.webfluxlearning.utils.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class UserTokenManager {
 
@@ -15,7 +17,7 @@ public class UserTokenManager {
     @Autowired
     private TokenUtil tokenUtil;
 
-    public String generateTokens(String userId, String username, String email) {
+    public String generateTokens(UUID userId, String username, String email) {
         TokenSecretKey activateKey = tokenRSAKeyManager.getActivateKey();
         // 验证 RefreshToken, 在数据库中获取， 同时修改相关需要更新
         return tokenUtil.generateAccessToken(userId, username, email, activateKey.getPrivateKey());
@@ -27,7 +29,7 @@ public class UserTokenManager {
         return tokenUtil.parseAccessToken(token, activateKey.getPublicKey());
     }
 
-    public String generateRefreshToken(String userId) {
+    public String generateRefreshToken(UUID userId) {
         // 保存刷新密钥
         return tokenUtil.generateRefreshToken();
     }
